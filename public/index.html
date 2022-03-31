@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Productos con Websockets</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/main.js"></script>
+</head>
+
+<body>
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 style="color: blue">Ingrese Producto</h1>
+            <br />
+
+            <form id="produtc_form" onsubmit="return addProducto(this)">
+                <div class="form-group">
+                    <label for="nombre"><b>Nombre</b></label>
+                    <input id="nombre" class="form-control" type="text" name="nombre" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="precio"><b>Precio</b></label>
+                    <input id="precio" class="form-control" type="number" name="precio" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="foto_URL"><b>Foto URL</b></label>
+                    <input id="foto_URL" class="form-control" type="url" name="foto_URL" required />
+                </div>
+                <button class="btn btn-success mt-3 mb-5" type="submit">Enviar</button>
+            </form>
+            <br />
+
+            <h1 style="color: red">Lista de Productos</h1>
+            <script type="text/x-handlebars-template" id="template_table">
+                {{{datos_de_tabla}}}
+            </script>
+            <div id="table_div"></div>
+            <br />
+
+            <h1 style="color: blue">Centro de Mensajes</h1>
+            <script type="text/x-handlebars-template" id="template_messages">
+                {{{datos_de_mesajes}}}
+            </script>
+            <div id="mensajes_div"></div>
+
+            <form id="message_form" onsubmit="return addMessage(this)">
+                <input type="email" id="email" placeholder="xxxx@gmail.com" />
+                <input type="text" id="texto" placeholder="Ingrese un mensaje" />
+                <button class="btn btn-success mt-3 mb-5" type="submit">Enviar</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
