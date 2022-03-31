@@ -1,3 +1,4 @@
+const fs = require('fs')
 const express = require('express')
 const PORT = 8080
 const { Server: IOServer } = require('socket.io')
@@ -8,8 +9,26 @@ const httpServer = new HttpServer(app)
 const io = new IOServer(httpServer)
 
 const productos = []
+let messages = []
 
-const messages = []
+try {
+    let contenido = fs.readFileSync("./messages.txt", 'utf-8')
+    messages = JSON.parse(contenido)
+} catch (error) {
+    console.log(error)
+    console.log("Archivo no encontrado. Se creara uno para su conveniencia.");
+    try {
+        let contenido = '[]'
+        fs.writeFileSync("./messages.txt", contenido)
+        console.log("Archivo Creado")
+        messages = JSON.parse(contenido)
+    } catch (e) {
+        console.log(error)
+        console.log("Error al intentar crear el archivo: " + e)
+    }
+}
+
+console.log(messages)
 
 app.use(express.static('./public'))
 app.get('/', (req, res) => {
@@ -30,6 +49,7 @@ io.on('connection', (socket) => {
 
     socket.on('new-message', (data) => {
         messages.push(data)
+        fs.writeFileSync('./messages.txt', JSON.stringify(messages))
         io.sockets.emit('messages', messages)
     })
 })
